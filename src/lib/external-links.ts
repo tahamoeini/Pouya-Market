@@ -1,4 +1,6 @@
-const approvedHosts: Record<string, string[]> = {
+import type { DestinationPlatform } from "@/data/platforms";
+
+const approvedHosts: Record<DestinationPlatform, readonly string[]> = {
   digikala: ["digikala.com"],
   snapp: ["snapp.market", "snappfood.ir"],
   instagram: ["instagram.com"],
@@ -9,7 +11,7 @@ const approvedHosts: Record<string, string[]> = {
   "google-maps": ["google.com", "maps.app.goo.gl"],
 };
 
-export function isApprovedExternalUrl(value: string, platform: string) {
+export function isApprovedExternalUrl(value: string, platform: DestinationPlatform) {
   try {
     const url = new URL(value);
     const hosts = approvedHosts[platform];

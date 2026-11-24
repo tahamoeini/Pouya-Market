@@ -10,8 +10,6 @@ export type Branch = {
   hours?: string;
   image?: string;
   categoryIds: string[];
-  mapLinks?: { neshan?: string; balad?: string; googleMaps?: string };
-  channels?: { platform: string; label: string; url: string }[];
   status: "draft" | "published" | "inactive";
 };
 
@@ -19,3 +17,8 @@ export const branches: Branch[] = [];
 
 export const previewBranches =
   process.env.NODE_ENV === "development" ? branchFixtures : [];
+
+export const publishedBranches = [
+  ...branches.filter((branch) => branch.status === "published"),
+  ...previewBranches.filter((branch) => branch.status === "published"),
+];

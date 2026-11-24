@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ArrowLeft, ArrowUpLeft, ChevronDown, MapPin, Phone, Store } from "lucide-react";
-import { branches, previewBranches } from "@/data/branches";
+import { publishedBranches } from "@/data/branches";
 import { destinations, type Destination } from "@/data/platforms";
 import { destinationFixtures } from "@/data/preview-fixtures";
 import { site } from "@/data/site";
@@ -8,11 +8,6 @@ import { isShoppingDestination, isSocialDestination } from "@/lib/destinations";
 import { isApprovedExternalUrl } from "@/lib/external-links";
 import { Header, type NavigationItem } from "./Header";
 import { StoreDiscovery } from "./StoreDiscovery";
-
-const activeBranches = [
-  ...branches.filter((branch) => branch.status === "published"),
-  ...previewBranches.filter((branch) => branch.status === "published"),
-];
 
 const activeDestinations = [
   ...destinations,
@@ -34,7 +29,7 @@ const discoveryDestinations: Destination[] = activeDestinations.filter(
 
 const navigation: NavigationItem[] = [
   { href: "#categories", label: "دسته‌بندی‌ها" },
-  ...(activeBranches.length ? [{ href: "#stores", label: "شعب پویا" }] : []),
+  ...(publishedBranches.length ? [{ href: "#stores", label: "شعب پویا" }] : []),
   ...(shoppingDestinations.length ? [{ href: "#shop", label: "خرید آنلاین" }] : []),
   ...(socialDestinations.length ? [{ href: "#channels", label: "راه‌های ارتباطی" }] : []),
   { href: "#about", label: "دربارهٔ پویا" },
@@ -46,7 +41,7 @@ const navigation: NavigationItem[] = [
 export function HomePage() {
   return (
     <>
-      <Header items={navigation} hasBranches={activeBranches.length > 0} />
+      <Header items={navigation} hasBranches={publishedBranches.length > 0} />
       <main id="main-content">
         <section className="hero-section page-wrap" id="home" aria-labelledby="hero-title">
           <div className="hero-copy">
@@ -62,7 +57,7 @@ export function HomePage() {
               <a className="button button-primary" href="#categories">
                 مشاهدهٔ دسته‌بندی‌ها <ArrowLeft size={18} aria-hidden="true" />
               </a>
-              {activeBranches.length > 0 && (
+              {publishedBranches.length > 0 && (
                 <a className="button button-secondary" href="#stores">
                   پیدا کردن شعبه <MapPin size={17} aria-hidden="true" />
                 </a>
@@ -101,7 +96,7 @@ export function HomePage() {
           </a>
         </section>
 
-        <StoreDiscovery branches={activeBranches} destinations={discoveryDestinations} />
+        <StoreDiscovery branches={publishedBranches} destinations={discoveryDestinations} />
 
         {shoppingDestinations.length > 0 && (
           <section className="online-section section-pad" id="shop" aria-labelledby="shop-title">
