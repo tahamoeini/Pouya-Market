@@ -8,6 +8,7 @@ import type { Branch } from "@/data/branches";
 import type { Destination } from "@/data/platforms";
 import { isShoppingDestination, isSocialDestination } from "@/lib/destinations";
 import { isApprovedExternalUrl } from "@/lib/external-links";
+import { filterBranches } from "@/lib/store-discovery";
 
 const categoryPalette = ["sea", "sand", "peach", "cloud", "rose"];
 const persianNumberFormatter = new Intl.NumberFormat("fa-IR");
@@ -27,11 +28,7 @@ export function StoreDiscovery({
   const cities = Array.from(new Set(branches.map((branch) => branch.city)));
   const branchCategoryIds = new Set(branches.flatMap((branch) => branch.categoryIds));
   const filteredBranches = useMemo(
-    () => branches.filter((branch) => {
-      const matchesCity = !selectedCity || branch.city === selectedCity;
-      const matchesCategory = !selectedCategory || branch.categoryIds.includes(selectedCategory);
-      return matchesCity && matchesCategory;
-    }),
+    () => filterBranches(branches, { city: selectedCity, categoryId: selectedCategory }),
     [branches, selectedCity, selectedCategory],
   );
 
