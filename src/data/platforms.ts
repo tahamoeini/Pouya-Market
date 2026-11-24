@@ -1,13 +1,27 @@
-export type Destination = {
+export type DestinationPlatform =
+  | "digikala"
+  | "snapp"
+  | "instagram"
+  | "telegram"
+  | "bale"
+  | "neshan"
+  | "balad"
+  | "google-maps";
+
+type DestinationDetails = {
   id: string;
-  platform: "digikala" | "snapp" | "instagram" | "telegram" | "bale" | string;
+  platform: DestinationPlatform;
   name: string;
   description: string;
   action: string;
-  scope: "brand" | "branch" | "category";
   url: string;
-  reviewedAt: string;
+  reviewedAt?: string;
   status: "draft" | "published" | "inactive";
 };
+
+export type Destination = DestinationDetails & (
+  | { scope: "brand"; scopeId?: never }
+  | { scope: "branch" | "category"; scopeId: string }
+);
 
 export const destinations: Destination[] = [];
